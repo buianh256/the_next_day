@@ -1,6 +1,22 @@
 package src;
 
 public class TheNextDay {
+    public static final int January = 1;
+    public static final int March = 3;
+    public static final int May = 5;
+    public static final int July = 7;
+    public static final int August = 8;
+    public static final int October = 10;
+    public static final int December = 12;
+    public static final int April = 4;
+    public static final int June = 6;
+    public static final int September = 9;
+    public static final int November = 11;
+    public static final int February = 2;
+    public static final int LAST_DAY_OF_LEAP_YEAR = 29;
+    public static final int LAST_DAY_OF_COMMON_YEAR = 28;
+    public static final int LAST_DAY_OF_MONTH_30_DAY = 30;
+    public static final int LAST_DAY_OF_MONTH_31_DAY = 31;
     private int day;
     private int month;
     private int year;
@@ -33,25 +49,25 @@ public class TheNextDay {
     public void setYear(int year) {
         this.year = year;
     }
-    public String showNextDay() {
+    public  String showNextDay() {
         String message = "";
-        switch (month) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
+        switch (getMonth()) {
+            case January:
+            case March:
+            case May:
+            case July:
+            case August:
+            case October:
+            case December:
                 message = get31DayConditions();
                 break;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
+            case April:
+            case June:
+            case September:
+            case November:
                 message = get30DayConditions();
                 break;
-            case 2:
+            case February:
                 message = getFebruaryConditions();
                 break;
                 default:
@@ -61,66 +77,74 @@ public class TheNextDay {
     }
 
     private String getFebruaryConditions() {
+        int nextDay = this.day + 1;
+        int nextMonth = this.month + 1;
+        String firstDay = "1";
         String message = "";
         boolean isLeapYear = false;
-        if (this.year % 4 == 0) {
-            if(this.year % 100 == 0) {
-                if(this.year % 400 == 0)
+        boolean isDivisibleBy4 = getYear() % 4 == 0;
+        if (isDivisibleBy4) {
+            boolean isDivisibleBy100 = getYear() % 100 == 0;
+            if(isDivisibleBy100) {
+                boolean isDivisibleBy400 = getYear() % 400 == 0;
+                if(isDivisibleBy400)
                     isLeapYear = true;
             }else{
                 isLeapYear = true;
             }
         }
         if (isLeapYear){
-            if(this.day < 29){
-                message = (this.day + 1) + "/" + this.month + "/" + this.year;
-            }else if (this.day == 29){
-                this.day = 1;
-                message = this.day + "/" + (this.month + 1) + "/" + this.year;
+            if(getDay() < LAST_DAY_OF_LEAP_YEAR){
+                message = nextDay + "/" + getMonth() + "/" + getYear();
+            }else if (getDay() == LAST_DAY_OF_LEAP_YEAR){
+                message = firstDay + "/" + nextMonth + "/" + getYear();
             }else {
-                message = "khong hop le!";
+                message = "Data day not exactly!";
             }
         }else {
-            if(this.day < 28){
-                message = (this.day + 1) + "/" + this.month + "/" + this.year;
-            }else if (this.day == 28){
-                this.day = 1;
-                message = this.day + "/" + (this.month + 1) + "/" + this.year;
+            if(getDay() < LAST_DAY_OF_COMMON_YEAR){
+                message = nextDay + "/" + getMonth() + "/" + getYear();
+            }else if (getDay() == LAST_DAY_OF_COMMON_YEAR){
+                message = firstDay + "/" + nextMonth + "/" + getYear();
             }else {
-                message = "khong hop le!";
+                message = "Data day not exactly!";
             }
         }
         return message;
     }
 
     private String get30DayConditions() {
+        int nextDay = this.day + 1;
+        int nextMonth = this.month + 1;
+        String firstDay = "1";
         String message = "";
-        if (this.day < 30) {
-            message = (this.day + 1) + "/" + this.month + "/" + this.year;
-        } else if (this.day == 30) {
-            this.day = 1;
-            message = this.day + "/" + (this.month + 1) + "/" + this.year;
+        if (getDay() < LAST_DAY_OF_MONTH_30_DAY) {
+            message = nextDay + "/" + getMonth() + "/" + getYear();
+        } else if (getDay() == LAST_DAY_OF_MONTH_30_DAY) {
+            message = firstDay + "/" + nextMonth + "/" + getYear();
         }else {
-            message = "Khong hop le!";
+            message = "Data day not exactly!";
         }
         return message;
     }
 
     private String get31DayConditions() {
+        int nextDay = this.day + 1;
+        int nextMonth = this.month + 1;
+        int nextYear = this.year + 1;
+        String firstDay = "1";
+        String firstMonth = "1";
         String message = "";
-        if (this.day < 31) {
-            message = (this.day + 1) + "/" + this.month + "/" + this.year;
-        } else if (this.day == 31 ) {
-            if(this.month == 12) {
-                this.day = 1;
-                this.month = 1;
-                message = this.day + "/" + this.month + "/" + (this.year + 1);
+        if (getDay() < LAST_DAY_OF_MONTH_31_DAY) {
+            message = nextDay + "/" + getMonth() + "/" + getYear();
+        } else if (getDay() == LAST_DAY_OF_MONTH_31_DAY ) {
+            if(getMonth() == December) {
+                message = firstDay + "/" + firstMonth + "/" + nextYear;
             }else {
-                this.day = 1;
-                message = this.day + "/" + (this.month + 1) + "/" + this.year;
+                message = firstDay + "/" + nextMonth + "/" + getYear();
             }
         } else {
-            message = "Khong hop le!";
+            message = "Data day not exactly!";
         }
         return message;
     }
