@@ -163,4 +163,14 @@ public void testInputDayNotExactlyWithLessThanMin(){
         String actual = theNextDay.showNextDay();
         assertEquals(expected, actual);
     }
+    @Test
+    public void testInputDayEndOfTheYear(){
+        int day = 31;
+        int month = 12;
+        int year = 2023;
+        TheNextDay theNextDay = new TheNextDay(day, month, year );
+        String expected = "1/1/2024";
+        String actual = theNextDay.showNextDay();
+        assertEquals(expected, actual);
+    }
 }
